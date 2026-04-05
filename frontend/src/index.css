@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap");
+@import "tailwindcss";
+
+:root {
+  --bg: #F8FAFC;
+  --border: #E2E8F0; /* instrument divider */
+  --text: #374151;
+  --muted: #737373;
+  --primary: #0369A1; /* deep sea blue */
+  --safe: #10B981; /* healthy */
+  --warn: #F59E0B; /* warning */
+  --critical: #EF4444; /* critical */
+  --graph: #0369A1;
+  --shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  font-weight: 600;
+}
+
+.instrument-card {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  box-shadow: var(--shadow);
+}
+
+.instrument-divider {
+  border-color: var(--border);
+}
+
+@keyframes stetho-pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.55; }
+  100% { opacity: 1; }
+}
+
+.pulse-ok {
+  animation: stetho-pulse 1.6s ease-in-out infinite;
+}
+
+#root {
+  min-height: 100vh;
+}
