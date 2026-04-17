@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased m-0 p-0 h-screen overflow-hidden;
+    /* Ensuring transitions happen smoothly for all theme properties */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+}
+
+/* Invisible minimal scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; 
+}

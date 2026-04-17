@@ -1,40 +1,15 @@
-# Stetho
+# stetho.
 
-Мониторинг линии по признакам с edge (без сырого аудио). Один экран: статус, отчёт, рекомендации.
+dashboard for bioferm
 
-## Запуск
+## How to run it
 
-**1. API** (`backend`):
-
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-```
-
-**2. Симулятор потока** (отдельный терминал):
-
-```bash
-cd next-dashboard
-npm install && npm run ws
-```
-
-**3. Интерфейс** (ещё один терминал):
-
-```bash
-cd next-dashboard
-npm run dev
-```
-
-Браузер: http://localhost:3000  
-
-Переменные: в `next-dashboard` скопировать `.env.example` → `.env.local` при необходимости. Реальный энкодер должен отдавать WebSocket-сообщения с тем же форматом, что и симулятор (`schema: stetho.edge.features.v1`, признаки в `features`).
-
-## Облако Alem Plus
-
-В `backend` скопировать `.env.example` в `.env`, задать `ALEM_PLUS_BASE_URL` (и при необходимости ключ). При сбое запроса используется локальный расчёт.
-
-## API
-
-- `GET /health`
-- `POST /v1/alem/pipeline` — признаки FFT/MFCC + фаза
+1. Install the dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+3. Open the link it gives you (usually `http://localhost:5173`) in your browser.
