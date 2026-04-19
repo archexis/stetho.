@@ -91,6 +91,9 @@ export default function App() {
   
   const [aiAnalysis, setAiAnalysis] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
+  const [aiDailySummary, setAiDailySummary] = useState(null);
+  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -254,6 +257,35 @@ export default function App() {
         {activeTab === 'reports' && (
           <div className="p-16 max-w-5xl">
             <h2 className="text-3xl font-medium tracking-tight mb-10 text-stetho-text dark:text-stetho-darkText">{d.exportLogs}</h2>
+            
+            {/* NEW: ALEM AI GENERATED SUMMARY */}
+            <div className="mb-10 bg-stetho-sidebar/50 dark:bg-stetho-darkSidebar/50 p-6 rounded-2xl border-[1.5px] border-stetho-border dark:border-stetho-darkBorder">
+              <div className="flex justify-between items-center mb-4">
+                 <h3 className="text-[17px] font-medium text-stetho-text dark:text-stetho-darkText flex items-center gap-2">
+                   <span className="text-blue-500">✨</span> AlemLLM: Анализ отчетов за смену
+                 </h3>
+                 <button 
+                    onClick={async () => {
+                      setIsGeneratingSummary(true);
+                      const mockLogsToAnalyze = "09:00 Калибровка завершена. 18:15 Отклонение pH на BIO_R01. 19:42 Аномальная вибрация на BIO_R02 (кавитация).";
+                      const res = await AlemService.generateSummary(mockLogsToAnalyze);
+                      setAiDailySummary(res);
+                      setIsGeneratingSummary(false);
+                    }}
+                    disabled={isGeneratingSummary}
+                    className="px-4 py-2 bg-stetho-text dark:bg-stetho-darkText text-stetho-bg dark:text-stetho-darkBg text-[13px] font-medium rounded-lg hover:opacity-90 disabled:opacity-50 transition-all"
+                 >
+                   {isGeneratingSummary ? "Генерация..." : "Сгенерировать сводку"}
+                 </button>
+              </div>
+              
+              {aiDailySummary && (
+                <div className="p-4 bg-stetho-bg dark:bg-stetho-darkBg border border-stetho-border dark:border-stetho-darkBorder rounded-xl text-[14px] text-stetho-text dark:text-stetho-darkText leading-relaxed">
+                   {aiDailySummary}
+                </div>
+              )}
+            </div>
+
             <div className="bg-stetho-bg dark:bg-stetho-darkBg border border-stetho-border dark:border-stetho-darkBorder rounded-2xl overflow-hidden">
               <table className="w-full text-left text-[14px] border-collapse">
                 <thead className="bg-stetho-sidebar dark:bg-stetho-darkSidebar border-b border-stetho-border dark:border-stetho-darkBorder text-[12px] text-stetho-textMuted dark:text-stetho-darkTextMuted uppercase tracking-wide font-medium">

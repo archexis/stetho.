@@ -55,13 +55,43 @@ export const AlemService = {
       const data = await response.json();
       const content = data.choices[0].message.content;
       
+      // Защита от мусора в ответе LLM (например markdown ```json)
+      let cleanContent = content;
+      if (cleanContent.includes('```')) {
+        cleanContent = cleanContent.replace(/```(?:json)?/gi, '').trim();
+      }
+      
       // Парсим JSON, который вернула сетка
-      return JSON.parse(content);
+      return JSON.parse(cleanContent);
       
     } catch (e) {
       console.error("Alem API Error: ", e);
       // Fallback чтобы приложение на хакатоне не развалилось, если отвалился интернет
       return this._mockDiagnostics(vibroLevel);
+    }
+  },
+
+  async generateSummary(logsData) {
+    if (!ALEM_API_KEY) return "Система эмуляции: Анализ невозможен без API ключа Alem.";
+    try {
+      const response = await fetch(`${ALEM_API_URL}/chat/completions`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${ALEM_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: "alemllm",
+          messages: [
+            {"role": "system", "content": "Ты - система генерации отчетов биореактора. Твоя задача проанализировать сырые логи и написать ОЧЕНЬ краткую сводку-резюме за день (максимум 2-3 предложения на русском языке)."},
+            {"role": "user", "content": `Логи за сегодня: ${logsData}`}
+          ],
+          temperature: 0.3,
+        })
+      });
+      if (!response.ok) throw new Error(`API error`);
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (e) {
+      console.error(e);
+      return "Ошибка генерации сводки Alem API.";
     }
   },
 
