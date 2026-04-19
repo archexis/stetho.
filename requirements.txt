@@ -2,6 +2,8 @@ fastapi
 uvicorn[standard]
 pydantic
 numpy
+# Указываем CPU-батч, чтобы Vercel не качал 9ГБ CUDA библиотек!
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch
 httpx
 python-dotenv
