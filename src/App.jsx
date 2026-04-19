@@ -267,8 +267,15 @@ export default function App() {
                  <button 
                     onClick={async () => {
                       setIsGeneratingSummary(true);
-                      const mockLogsToAnalyze = "09:00 Калибровка завершена. 18:15 Отклонение pH на BIO_R01. 19:42 Аномальная вибрация на BIO_R02 (кавитация).";
-                      const res = await AlemService.generateSummary(mockLogsToAnalyze);
+                      
+                      const logsSets = [
+                        "09:00 Калибровка завершена. 12:30 Насос M-01 показывает нестабильность тока. 19:42 Аномальная вибрация на BIO_R02 (кавитация).",
+                        "10:15 Система охлаждения включилась позже расписания. 14:00 Реактор BIO_R03 - падение уровня кислорода O2. Требуется проверка аэратора.",
+                        "08:00 Все системы работают в штатном режиме. 18:15 Отклонение pH на BIO_R01 (слишком кислая среда). Внести буферный раствор."
+                      ];
+                      const randomLog = logsSets[Math.floor(Math.random() * logsSets.length)];
+                      
+                      const res = await AlemService.generateSummary(randomLog);
                       setAiDailySummary(res);
                       setIsGeneratingSummary(false);
                     }}
