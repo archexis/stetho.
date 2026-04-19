@@ -1,7 +1,7 @@
 // src/services/AlemService.js
 
 // URL эндпоинта Alem Plus
-const ALEM_API_URL = import.meta.env.VITE_ALEM_API_URL || 'https://api.alem.ai/v1';
+const ALEM_API_URL = import.meta.env.VITE_ALEM_API_URL || 'https://llm.alem.ai/v1';
 const ALEM_API_KEY = import.meta.env.VITE_ALEM_API_KEY;
 
 export const AlemService = {
@@ -41,7 +41,7 @@ export const AlemService = {
           'Content-Type': 'application/json' 
         },
         body: JSON.stringify({
-          model: "qwen-max", // Или другая модель, доступная вам в Alem Plus
+          model: "alemllm", // Модель из платформы Alem Plus
           messages: [
             {"role": "system", "content": "You output only clean raw JSON without backticks or markdown markers like ```json ... ```."},
             {"role": "user", "content": systemPrompt}
